@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Keys</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        h1 {
+            margin-top: 50px;
+        }
+        form {
+            margin-top: 20px;
+        }
+        input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        input[type="submit"]:hover {
+            background-color: #219653;
+        }
+        textarea {
+            width: 80%;
+            height: 300px;
+            margin-top: 20px;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            resize: none;
+        }
+        .pub {
+            margin-left: 10px; 
+            margin-top: 10px;
+            margin-right: 30px;
+        }   
+        .prv {
+            margin-top: 10px;
+            margin-right: 10px;
+        }
+        .warning {
+            color: red;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <h1>Generate Keys</h1>
+    <form id="generateForm">
+        <input class="prv" type="submit" name="generate" value="Generate Key">Generate Private Key
+    </form>
+    <textarea id="keyOutput" placeholder="Generated private key" readonly></textarea>
+    <div id="warningMessage" class="warning"></div>
+
+    <script>
+    $(document).ready(function() {
+        $('#generateForm').submit(function(e) {
+            e.preventDefault();
+            $.ajax({
+                url: 'generate_keys_action.php',
+                type: 'POST',
+                data: {generate: 'privateKey'},
+                dataType: 'json',
+                success: function(response) {
+                    if (response.status === 'success') {
+                        $('#keyOutput').val(response.message);
+                        $('#warningMessage').text('').removeClass('error');
+                    } else if (response.status === 'wait') {
+                        $('#keyOutput').val(response.message);
+                        $('#warningMessage').text(response.warning).addClass('error');
+                    } else {
+                        $('#keyOutput').val('');
+                        $('#warningMessage').text('An error occurred while generating the key.').addClass('error');
+                    }
+                },
+                error: function() {
+                    $('#keyOutput').val('');
+                    $('#warningMessage').text('An error occurred while communicating with the server.').addClass('error');
+                }
+            });
+        });
+    });
+    </script>
+</body>
+</html>

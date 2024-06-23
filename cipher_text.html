@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chiffrer/Déchiffrer un texte</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        h1 {
+            margin-top: 50px;
+        }
+        form {
+            margin-top: 20px;
+        }
+        select, input[type="text"], textarea {
+            margin-bottom: 10px;
+            padding: 10px;
+            width: 60%;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        input[type="submit"], .action-button {
+            padding: 10px 20px;
+            background-color: #e67e22;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        input[type="submit"]:hover, .action-button:hover {
+            background-color: #d35400;
+        }
+        textarea {
+            width: 80%;
+            height: 200px;
+            margin-top: 10px;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            resize: vertical;
+        }
+        #result {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            width: 78%;
+            border-radius: 3px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: left;
+            min-height: 30px;
+        }
+        
+        #result h2 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        
+        #result p {
+            color: #666;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+        
+        #result .success {
+            color: #4CAF50;
+        }
+        
+        #result .error {
+            color: #F44336;
+        }
+        
+        #result .warning {
+            color: #FFC107;
+        }
+        
+        .message {
+            color: #F44336; /* Couleur rouge pour les messages d'erreur */
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        function handleMethodChange() {
+            var method = document.getElementById("method").value;
+            if (method === "cesar") {
+                // Afficher un champ pour la clé en tant qu'entier
+                document.getElementById("keyInput").innerHTML = '<input type="number" name="key" id="key" placeholder="Clé (entier)" required>';
+            } else {
+                // Afficher un champ pour la clé en tant que texte
+                document.getElementById("keyInput").innerHTML = '<input type="text" name="key" id="key" placeholder="Clé" required>';
+            }
+        }
+
+        $(document).ready(function(){
+            $(".action-button").on("click", function(event){
+                event.preventDefault();
+                var action = $(this).attr("name");
+                $("#action").val(action);
+
+                // Validation supplémentaire pour le chiffrement de César
+                if ($("#method").val() === "cesar") {
+                    var key = $("#key").val();
+                    if (isNaN(key)) {
+                        displayMessage("La clé pour le chiffrement de César doit être un entier.", "error");
+                        return;
+                    }
+                }
+
+                // Validation pour le chiffrement par substitution par mot-clé
+                if ($("#method").val() === "substitution") {
+                    var key = $("#key").val();
+                    if (key.trim() === "" || !isNaN(key.trim())) {
+                        displayMessage("La clé pour la substitution par mot-clé doit être une chaîne de caractères non vide.", "error");
+                        return;
+                    }
+                }
+
+                // Validation pour le chiffrement de transposition
+                if ($("#method").val() === "transposition") {
+                    var key = $("#key").val();
+                    if (key.trim() === "" || !isNaN(key.trim())) {
+                        displayMessage("La clé pour le chiffrement de transposition doit être une chaîne de caractères non vide.", "error");
+                        return;
+                    }
+                }
+
+                $.ajax({
+                    url: "cipher_text_action.php",
+                    type: "post",
+                    data: $("form").serialize(),
+                    success: function(response){
+                        $("#result").html(response);
+                        // Afficher un message de succès
+                        displayMessage("Opération réussie.", "success");
+                    }
+                });
+            });
+
+            function displayMessage(message, type) {
+                var msgDiv = $("#message");
+                msgDiv.removeClass();
+                msgDiv.addClass("message " + type);
+                msgDiv.text(message);
+            }
+        });
+    </script>
+</head>
+<body>
+    <h1>Chiffrer/Déchiffrer un texte</h1>
+    <form>
+        <select name="method" id="method" onchange="handleMethodChange()">
+            <option value="cesar">Chiffrement de César (caesar cipher)</option>
+            <option value="substitution">Substitution par mot-clé (Keyword Cipher)</option>
+            <option value="transposition">Chiffre de transposition (Columnar Transposition Cipher)</option>
+        </select>
+        <br>
+        <div id="keyInput">
+            <input type="text" name="key" id="key" placeholder="Clé" required>
+        </div>
+        <br>
+        <textarea name="inputText" id="inputText" placeholder="Texte à chiffrer/déchiffrer" required></textarea>
+        <br>
+        <input type="hidden" id="action" name="action">
+        <button class="action-button" name="encrypt">Chiffrer</button>
+        <button class="action-button" name="decrypt">Déchiffrer</button>
+        <div id="result"></div>
+        <div id="message"></div>
+    </form>
+</body>
+</html>

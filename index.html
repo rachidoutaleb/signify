@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Signify - Your Trust Service Provider</title>
+  <style>
+    body {
+      margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        color: #333;
+        background-image: url('./images/image7.jpeg');
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+       background-attachment: fixed;
+    }
+    
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .logo img {
+      height: 50px;
+      
+    
+    }
+    
+    nav ul {
+      display: flex;
+      list-style: none;
+    }
+    
+    nav li {
+      margin-left: 20px;
+    }
+    
+    nav a {
+      color: #333;
+      text-decoration: none;
+      font-size: 18px;
+    }
+    
+    nav a:hover {
+      color: #007bff;
+    }
+    
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 80vh;
+      background-image: url('hero_bg.jpg');
+      background-size: cover;
+      background-position: center;
+      color: #fff;
+      text-align: center;
+    }
+    
+    html {
+      scroll-behavior: smooth;
+      }
+      
+    #about-us {
+      background-color: #333;
+      color: #fff;
+      padding: 50px 0;
+    }
+    
+    #about-us h2 {
+      font-size: 36px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    
+    #about-us p {
+      font-size: 18px;
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    
+    .paragraph {
+      background-color: #007bff;
+      
+    }
+    
+    .hero h1 {
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
+    
+    .hero p {
+      font-size: 24px;
+      margin-bottom: 40px;
+    }
+    
+    .cta-btn {
+      display: inline-block;
+      padding: 10px 30px;
+      background-color: #007bff;
+      color: #fff;
+      font-size: 20px;
+      border-radius: 5px;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+    
+    .cta-btn:hover {
+      background-color: #0056b3;
+    }
+    
+    footer {
+      padding: 20px;
+      background-color: #f5f5f5;
+      text-align: center;
+      font-size: 14px;
+      border-top: 1px solid #ddd;
+    }
+    
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="./images/logo-blue.png" alt="Signify Logo">
+    </div>
+    <nav>
+      <ul>
+        <li><a href="#about-us">About us</a></li>
+        <li><a href="./contact.html">Contact</a></li>
+        <li><a href="./signin.php">Sign in</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <section class="hero">
+      <h1 class="paragraph">Welcome to Signify</h1>
+      <p class="paragraph">We provide trust for your documents.</p>
+      <a href="./signin.php" class="cta-btn">Start Now</a>
+    </section>
+  </main>
+  <section id="about-us">
+    <div class="container">
+      <h2>About Us</h2>
+      <p>We are a trusted provider of digital signatures, document verification, encryption, and key generation services.</p> 
+      <p>Our mission is to make the processes of signing, verifying, and securing documents both seamless and </p>
+      <p>hassle-free, ensuring utmost security and efficiency for our clients.</p>
+    </div>
+  </section>
+  <footer>
+    <p>&copy; 2023 Signify. All Rights Reserved.</p>
+  </footer>
+
+  <!-- JavaScript for smooth scrolling -->
+  <script>
+    // Find the "About us" link in the navigation
+    const aboutUsLink = document.querySelector('a[href="#about-us"]');
+
+    // Add a click event listener to scroll smoothly to the "About Us" section
+    aboutUsLink.addEventListener('click', function(event) {
+      event.preventDefault(); // Prevent default anchor behavior
+
+      // Use scrollIntoView to scroll to the "About Us" section smoothly
+      const aboutUsSection = document.getElementById('about-us');
+      aboutUsSection.scrollIntoView({ behavior: 'smooth' });
+    });
+  </script>
+</body>
+</html>

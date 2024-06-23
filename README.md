@@ -10,7 +10,9 @@ git clone https://github.com/rachidoutaleb/signify.git
 cp ./signify C:\wamp64\www
 ```
 #### Step  2 :
+Create a database named **'pki'**.
 
+#### Step  3 :
 Go to your browser and navigate to:
 ```
 127.0.0.1/signify
